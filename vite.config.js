@@ -4,6 +4,6 @@ import tailwindcss from "@tailwindcss/vite";
 
 
 export default defineConfig({
-  base: '/NetherLinkWebsite/',
+  base: '/',
   plugins: [react(), tailwindcss()],
 })
