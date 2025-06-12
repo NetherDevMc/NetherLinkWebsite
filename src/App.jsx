@@ -237,14 +237,14 @@ export default function App() {
                   <div className="origin-top-right absolute left-0 mt-2 w-56 rounded-md shadow-lg bg-gray-800 ring-1 ring-black ring-opacity-5 z-10">
                     <div className="py-1">
                       <a
-                        href="https://github.com/NetherLinkMC/NetherLinkWebsite/blob/main/downloads/windows/NetherLinkInstaller.exe"
+                        href="https://github.com/NetherLinkMC/NetherLinkWebsite/raw/refs/heads/main/downloads/windows/NetherLinkInstaller.exe"
                         className="block px-4 py-2 text-sm text-white hover:bg-gray-700"
                         onClick={() => setWindowsDropdownOpen(false)}
                       >
                         Installer (.exe)
                       </a>
                       <a
-                        href="https://github.com/NetherLinkMC/NetherLinkWebsite/blob/main/downloads/windows/NetherLink.rar"
+                        href="https://github.com/NetherLinkMC/NetherLinkWebsite/raw/refs/heads/main/downloads/windows/NetherLink.rar"
                         className="block px-4 py-2 text-sm text-white hover:bg-gray-700"
                         onClick={() => setWindowsDropdownOpen(false)}
                       >
