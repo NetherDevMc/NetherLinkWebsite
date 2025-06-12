@@ -64,9 +64,9 @@ export default function App() {
           setShowModal(true);
           setMenuOpen(false);
         }}
-        className="block md:inline-block px-3 py-2 hover:underline"
+        className="block md:inline-block text-gray-800 px-3 py-2 hover:underline"
       >
-        Featured Servers
+        Advertise Your Server
       </a>
     </>
   );
@@ -89,16 +89,16 @@ export default function App() {
   );
 
   const serverList = (
-    <aside className="bg-gray-600 p-4 rounded-lg shadow-lg w-full md:max-w-lg text-white md:sticky md:top-20 md:h-[calc(100vh-5rem)] overflow-y-auto ml-0 md:ml-4">
-      <h2 className="text-xl font-bold mb-4">🌟 Featured Servers List</h2>
+    <aside className="bg-white border border-gray-300 p-4 rounded-lg shadow-lg w-full md:max-w-lg text-white md:sticky md:top-20 md:h-[calc(100vh-5rem)] overflow-y-auto ml-0 md:ml-4">
+      <h2 className="text-xl text-gray-800 font-bold mb-4">🌟 Featured Servers List</h2>
       <div className="flex flex-col gap-4">
         {servers.length === 0 && (
-          <p className="text-gray-300">Loading servers...</p>
+          <p className="text-gray-800">Loading servers...</p>
         )}
         {servers.map(({ name, address, port, background }) => (
           <div
             key={name}
-            className="rounded-lg p-4 bg-cover bg-center shadow-lg cursor-pointer transform hover:scale-105 transition-transform"
+            className="rounded-lg border border-gray-300 p-4 bg-cover bg-center shadow-lg cursor-pointer transform hover:scale-105 transition-transform"
             style={{
               backgroundImage: `url(${background})`,
               minHeight: "100px",
@@ -130,23 +130,23 @@ export default function App() {
   );
 
   return (
-<div className="min-h-screen bg-gradient-to-b from-gray-500 to-gray-800 text-gray-200 font-sans">
+    <div className="min-h-screen bg-color-default text-gray-800 font-sans">
       {showModal && (
-        <div className="fixed inset-0 bg-gray-700 bg-opacity-60 flex items-center justify-center z-50">
-          <div className="bg-gray-600 rounded-lg shadow-xl p-6 max-w-md w-full mx-4 relative">
+        <div className="fixed inset-0 bg-color-default bg-opacity-60 flex items-center justify-center z-50">
+          <div className="bg-white border border-gray-300 rounded-lg shadow-xl p-6 max-w-md w-full mx-4 relative">
             <h2 className="text-xl font-bold text-white mb-4">
               🌟 Featured Server List
             </h2>
-            <p className="text-gray-300 mb-4">
+            <p className="text-gray-800 mb-4">
               Server owners have the opportunity to purchase a spot on our
               Featured Server List. The higher the position you choose, the
               greater the visibility.
             </p>
-            <p className="text-gray-300 mb-4">
+            <p className="text-gray-800 mb-4">
               To get started, please contact our staff on Discord for further
               details regarding pricing and payment.
             </p>
-            <p className="text-gray-300 mb-6">
+            <p className="text-gray-800 mb-6">
               Once your payment is confirmed, we'll add your server to the
               featured list.
             </p>
@@ -160,9 +160,9 @@ export default function App() {
         </div>
       )}
 
-      <header className="bg-gray-600 text-gray-100 shadow-lg sticky top-0 z-50">
+      <header className="bg-color-default text-gray-100 shadow-lg sticky top-0 z-50">
         <div className="max-w-6xl mx-auto flex items-center justify-between p-4">
-          <h1 className="text-3xl font-extrabold tracking-wide">NetherLink</h1>
+          <h1 className="text-3xl text-gray-800 font-extrabold tracking-wide">NetherLink</h1>
 
           <nav className="hidden md:flex items-center space-x-6 text-lg w-full ml-10">
             {navLinks}
@@ -195,12 +195,12 @@ export default function App() {
         <main className="flex-1">
           <section
             id="download"
-            className="bg-gray-600 py-12 text-center shadow-inner rounded-lg mb-12"
+            className="bg-white border border-gray-300 py-12 text-center shadow-inner rounded-lg mb-12"
           >
-            <h3 className="text-3xl font-bold mb-8 text-white">
+            <h3 className="text-3xl font-bold mb-8 text-gray-800">
               📥 Download NetherLink
             </h3>
-            <p className="text-gray-300 mb-8 max-w-xl mx-auto">
+            <p className="text-gray-800 mb-8 max-w-xl mx-auto">
               Choose your platform and start downloading immediately:
             </p>
 
@@ -278,42 +278,42 @@ export default function App() {
           </section>
 
           <section id="features" className="py-20">
-            <h3 className="text-3xl font-bold text-center mb-12 text-white">
+            <h3 className="text-3xl font-bold text-center mb-12 text-gray-800">
               🚀 Features
             </h3>
             <div className="grid gap-10 md:grid-cols-2">
 
-              <div className="bg-gray-600 p-6 rounded-lg shadow-lg text-white flex flex-col">
-                <h4 className="text-2xl font-semibold mb-4">
+              <div className="bg-white border border-gray-300 p-6 rounded-lg shadow-lg text-white flex flex-col">
+                <h4 className="text-2xl text-gray-800 font-semibold mb-4">
                   🌍 LAN Server Broadcasting
                 </h4>
-                <p>
+                <p className="text-gray-800">
                   Connect to external servers using LAN Discovery for easy
                   multiplayer for all consoles.
                 </p>
               </div>
 
-              <div className="bg-gray-600 p-6 rounded-lg shadow-lg text-white flex flex-col">
+              <div className="bg-white border border-gray-300 p-6 rounded-lg shadow-lg text-white flex flex-col">
                 <h4 className="text-2xl font-semibold mb-4">🎮 Console support</h4>
-                <p>
+                <p className="text-gray-800">
                   We support all consoles, including Xbox, PlayStation, and
                   Nintendo Switch, for seamless cross-platform play.
                 </p>
               </div>
 
-              <div className="bg-gray-600 p-6 rounded-lg shadow-lg text-white flex flex-col">
-                <h4 className="text-2xl font-semibold mb-4">
+              <div className="bg-white border border-gray-300 p-6 rounded-lg shadow-lg text-white flex flex-col">
+                <h4 className="text-2xl text-gray-800 font-semibold mb-4">
                   🔥 Fast & Easy
                 </h4>
-                <p>
+                <p className="text-gray-800">
                   We do not make use of any protocol libraries, less latency and
                   more performance for you! Texturepacks are supported
                 </p>
               </div>
 
-              <div className="bg-gray-600 p-6 rounded-lg shadow-lg text-white flex flex-col">
-                <h4 className="text-2xl font-semibold mb-4">📡 IPv4 & IPv6</h4>
-                <p>
+              <div className="bg-white border border-gray-300 p-6 rounded-lg shadow-lg text-white flex flex-col">
+                <h4 className="text-2xl text-gray-800 font-semibold mb-4">📡 IPv4 & IPv6</h4>
+                <p className="text-gray-800">
                   Full support for both IPv4 and IPv6 networks to maximize
                   connectivity.
                 </p>
@@ -326,7 +326,7 @@ export default function App() {
 
         <aside className="hidden md:block">{serverList}</aside>
       </div>
-      <footer className="text-gray-300 text-center py-4 mt-12">
+      <footer className="text-gray-800 text-center py-4 mt-12">
         <p>© 2025 NetherLink. All rights reserved.</p>
         <p>
           Built with ❤️ by Jens-Co.
