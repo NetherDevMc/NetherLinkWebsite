@@ -80,7 +80,7 @@ export default function App() {
         setMenuOpen(false);
         setWindowsDropdownOpen(false);
       }}
-      className="bg-indigo-600 hover:bg-indigo-700 text-white rounded-full p-2 transition duration-200 inline-flex items-center justify-center"
+      className="bg-gray-800 hover:bg-indigo-700 text-white rounded-full p-2 transition duration-200 inline-flex items-center justify-center"
       aria-label="Join us on Discord"
       title="Join us on Discord"
     >
@@ -89,11 +89,11 @@ export default function App() {
   );
 
   const serverList = (
-    <aside className="bg-gray-800 p-4 rounded-lg shadow-lg w-full md:max-w-lg text-white md:sticky md:top-20 md:h-[calc(100vh-5rem)] overflow-y-auto ml-0 md:ml-4">
+    <aside className="bg-gray-600 p-4 rounded-lg shadow-lg w-full md:max-w-lg text-white md:sticky md:top-20 md:h-[calc(100vh-5rem)] overflow-y-auto ml-0 md:ml-4">
       <h2 className="text-xl font-bold mb-4">🌟 Featured Servers List</h2>
       <div className="flex flex-col gap-4">
         {servers.length === 0 && (
-          <p className="text-gray-400">Loading servers...</p>
+          <p className="text-gray-300">Loading servers...</p>
         )}
         {servers.map(({ name, address, port, background }) => (
           <div
@@ -130,10 +130,10 @@ export default function App() {
   );
 
   return (
-    <div className="min-h-screen bg-gray-900 text-gray-200 font-sans">
+<div className="min-h-screen bg-gradient-to-b from-gray-500 to-gray-800 text-gray-200 font-sans">
       {showModal && (
-        <div className="fixed inset-0 bg-black bg-opacity-60 flex items-center justify-center z-50">
-          <div className="bg-gray-800 rounded-lg shadow-xl p-6 max-w-md w-full mx-4 relative">
+        <div className="fixed inset-0 bg-gray-700 bg-opacity-60 flex items-center justify-center z-50">
+          <div className="bg-gray-600 rounded-lg shadow-xl p-6 max-w-md w-full mx-4 relative">
             <h2 className="text-xl font-bold text-white mb-4">
               🌟 Featured Server List
             </h2>
@@ -160,7 +160,7 @@ export default function App() {
         </div>
       )}
 
-      <header className="bg-gray-800 text-gray-100 shadow-lg sticky top-0 z-50">
+      <header className="bg-gray-600 text-gray-100 shadow-lg sticky top-0 z-50">
         <div className="max-w-6xl mx-auto flex items-center justify-between p-4">
           <h1 className="text-3xl font-extrabold tracking-wide">NetherLink</h1>
 
@@ -195,12 +195,12 @@ export default function App() {
         <main className="flex-1">
           <section
             id="download"
-            className="bg-gray-900 py-12 text-center shadow-inner rounded-lg mb-12"
+            className="bg-gray-600 py-12 text-center shadow-inner rounded-lg mb-12"
           >
             <h3 className="text-3xl font-bold mb-8 text-white">
               📥 Download NetherLink
             </h3>
-            <p className="text-gray-400 mb-8 max-w-xl mx-auto">
+            <p className="text-gray-300 mb-8 max-w-xl mx-auto">
               Choose your platform and start downloading immediately:
             </p>
 
@@ -283,7 +283,7 @@ export default function App() {
             </h3>
             <div className="grid gap-10 md:grid-cols-2">
 
-              <div className="bg-gray-800 p-6 rounded-lg shadow-lg text-white flex flex-col">
+              <div className="bg-gray-600 p-6 rounded-lg shadow-lg text-white flex flex-col">
                 <h4 className="text-2xl font-semibold mb-4">
                   🌍 LAN Server Broadcasting
                 </h4>
@@ -293,7 +293,7 @@ export default function App() {
                 </p>
               </div>
 
-              <div className="bg-gray-800 p-6 rounded-lg shadow-lg text-white flex flex-col">
+              <div className="bg-gray-600 p-6 rounded-lg shadow-lg text-white flex flex-col">
                 <h4 className="text-2xl font-semibold mb-4">🎮 Console support</h4>
                 <p>
                   We support all consoles, including Xbox, PlayStation, and
@@ -301,7 +301,7 @@ export default function App() {
                 </p>
               </div>
 
-              <div className="bg-gray-800 p-6 rounded-lg shadow-lg text-white flex flex-col">
+              <div className="bg-gray-600 p-6 rounded-lg shadow-lg text-white flex flex-col">
                 <h4 className="text-2xl font-semibold mb-4">
                   🔥 Fast & Easy
                 </h4>
@@ -311,7 +311,7 @@ export default function App() {
                 </p>
               </div>
 
-              <div className="bg-gray-800 p-6 rounded-lg shadow-lg text-white flex flex-col">
+              <div className="bg-gray-600 p-6 rounded-lg shadow-lg text-white flex flex-col">
                 <h4 className="text-2xl font-semibold mb-4">📡 IPv4 & IPv6</h4>
                 <p>
                   Full support for both IPv4 and IPv6 networks to maximize
@@ -326,7 +326,7 @@ export default function App() {
 
         <aside className="hidden md:block">{serverList}</aside>
       </div>
-      <footer className="bg-gray-800 text-gray-400 text-center py-4 mt-12">
+      <footer className="text-gray-300 text-center py-4 mt-12">
         <p>© 2025 NetherLink. All rights reserved.</p>
         <p>
           Built with ❤️ by Jens-Co.
