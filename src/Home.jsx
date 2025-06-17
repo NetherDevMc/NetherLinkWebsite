@@ -2,7 +2,6 @@ import { useState, useRef, useEffect } from "react";
 import {
   FaWindows,
   FaApple,
-  FaLinux,
   FaDiscord,
   FaBars,
   FaTimes,
@@ -13,7 +12,6 @@ export default function Home() {
   const buttonStyles = {
     windows: "bg-blue-800",
     mac: "bg-gray-700",
-    linux: "bg-green-800",
   };
 
   const [showModal, setShowModal] = useState(false);
@@ -285,16 +283,6 @@ export default function Home() {
                   Mac
                 </a>
               </div>
-
-              <div className="flex-1 min-w-[150px] max-w-[180px]">
-                <a
-                  href="/NetherLinkLinux.tar.gz"
-                  className={`${buttonStyles.linux} flex items-center justify-center gap-3 px-6 py-3 rounded-full text-lg font-semibold text-white shadow-lg focus:outline-none w-full`}
-                >
-                  <FaLinux className="text-2xl" />
-                  Linux
-                </a>
-              </div>
             </div>
           </section>
 
@@ -314,7 +302,7 @@ export default function Home() {
               </div>
 
               <div className="bg-white border border-gray-300 p-6 rounded-lg shadow-lg text-white flex flex-col">
-                <h4 className="text-2xl font-semibold mb-4">
+                <h4 className="text-2xl text-gray-800 font-semibold mb-4">
                   🎮 Console support
                 </h4>
                 <p className="text-gray-800">
