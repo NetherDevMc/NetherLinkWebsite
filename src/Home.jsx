@@ -7,7 +7,7 @@ import {
   FaBars,
   FaTimes,
 } from "react-icons/fa";
-import Footer from './Footer';
+import Footer from "./Footer";
 
 export default function Home() {
   const buttonStyles = {
@@ -21,8 +21,8 @@ export default function Home() {
   const dropdownRef = useRef(null);
   const [menuOpen, setMenuOpen] = useState(false);
   const menuRef = useRef(null);
-
   const [servers, setServers] = useState([]);
+  const [rotatedServers, setRotatedServers] = useState([]);
 
   useEffect(() => {
     fetch(
@@ -34,14 +34,29 @@ export default function Home() {
   }, []);
 
   useEffect(() => {
+    if (servers.length === 0) return;
+
+    setRotatedServers(servers);
+
+    const interval = setInterval(() => {
+      setRotatedServers((current) => {
+        if (current.length === 0) return current;
+        const [first, ...rest] = current;
+        return [...rest, first];
+      });
+    }, 10000);
+
+    return () => clearInterval(interval);
+  }, [servers]);
+
+  useEffect(() => {
     function handleClickOutside(event) {
       if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
         setWindowsDropdownOpen(false);
       }
     }
     document.addEventListener("mousedown", handleClickOutside);
-    return () =>
-      document.removeEventListener("mousedown", handleClickOutside);
+    return () => document.removeEventListener("mousedown", handleClickOutside);
   }, []);
 
   useEffect(() => {
@@ -51,8 +66,7 @@ export default function Home() {
       }
     }
     document.addEventListener("mousedown", handleClickOutside);
-    return () =>
-      document.removeEventListener("mousedown", handleClickOutside);
+    return () => document.removeEventListener("mousedown", handleClickOutside);
   }, []);
 
   const navLinks = (
@@ -90,12 +104,15 @@ export default function Home() {
 
   const serverList = (
     <aside className="bg-white border border-gray-300 p-4 rounded-lg shadow-lg w-full md:max-w-lg text-white md:sticky md:top-20 md:h-[calc(100vh-5rem)] overflow-y-auto ml-0 md:ml-4">
-      <h2 className="text-xl text-gray-800 font-bold mb-4">🌟 Featured Servers List</h2>
+      <h2 className="text-xl text-gray-800 font-bold mb-4">
+        🌟 Featured Servers List
+      </h2>
       <div className="flex flex-col gap-4">
         {servers.length === 0 && (
           <p className="text-gray-800">Loading servers...</p>
         )}
-        {servers.map(({ name, address, port, background }) => (
+
+        {rotatedServers.map(({ name, address, port, background }) => (
           <div
             key={name}
             className="rounded-lg border border-gray-300 p-4 bg-cover bg-center shadow-lg cursor-pointer transform hover:scale-105 transition-transform"
@@ -110,11 +127,14 @@ export default function Home() {
             }}
             onClick={() => {
               const textToCopy = `${address}:${port}`;
-              navigator.clipboard.writeText(textToCopy).then(() => {
-                alert(`Copied ${textToCopy} to clipboard!`);
-              }).catch(() => {
-                alert('Failed to copy to clipboard');
-              });
+              navigator.clipboard
+                .writeText(textToCopy)
+                .then(() => {
+                  alert(`Copied ${textToCopy} to clipboard!`);
+                })
+                .catch(() => {
+                  alert("Failed to copy to clipboard");
+                });
             }}
             title={`Click to copy ${address}:${port}`}
           >
@@ -124,7 +144,6 @@ export default function Home() {
             </p>
           </div>
         ))}
-
       </div>
     </aside>
   );
@@ -162,7 +181,9 @@ export default function Home() {
 
       <header className="bg-color-default text-gray-100 shadow-lg sticky top-0 z-50">
         <div className="max-w-6xl mx-auto flex items-center justify-between p-4">
-          <h1 className="text-3xl text-gray-800 font-extrabold tracking-wide">NetherLink</h1>
+          <h1 className="text-3xl text-gray-800 font-extrabold tracking-wide">
+            NetherLink
+          </h1>
 
           <nav className="hidden md:flex items-center space-x-6 text-lg w-full ml-10">
             {navLinks}
@@ -282,7 +303,6 @@ export default function Home() {
               🚀 Features
             </h3>
             <div className="grid gap-10 md:grid-cols-2">
-
               <div className="bg-white border border-gray-300 p-6 rounded-lg shadow-lg text-white flex flex-col">
                 <h4 className="text-2xl text-gray-800 font-semibold mb-4">
                   🌍 LAN Server Broadcasting
@@ -294,7 +314,9 @@ export default function Home() {
               </div>
 
               <div className="bg-white border border-gray-300 p-6 rounded-lg shadow-lg text-white flex flex-col">
-                <h4 className="text-2xl font-semibold mb-4">🎮 Console support</h4>
+                <h4 className="text-2xl font-semibold mb-4">
+                  🎮 Console support
+                </h4>
                 <p className="text-gray-800">
                   We support all consoles, including Xbox, PlayStation, and
                   Nintendo Switch, for seamless cross-platform play.
@@ -312,7 +334,9 @@ export default function Home() {
               </div>
 
               <div className="bg-white border border-gray-300 p-6 rounded-lg shadow-lg text-white flex flex-col">
-                <h4 className="text-2xl text-gray-800 font-semibold mb-4">📡 IPv4 & IPv6</h4>
+                <h4 className="text-2xl text-gray-800 font-semibold mb-4">
+                  📡 IPv4 & IPv6
+                </h4>
                 <p className="text-gray-800">
                   Full support for both IPv4 and IPv6 networks to maximize
                   connectivity.
@@ -326,8 +350,7 @@ export default function Home() {
 
         <aside className="hidden md:block">{serverList}</aside>
       </div>
-       <Footer />
-
+      <Footer />
     </div>
   );
 }
