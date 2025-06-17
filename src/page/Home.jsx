@@ -1,12 +1,7 @@
 import { useState, useRef, useEffect } from "react";
-import {
-  FaWindows,
-  FaApple,
-  FaDiscord,
-  FaBars,
-  FaTimes,
-} from "react-icons/fa";
-import Footer from "./Footer";
+import { FaWindows, FaApple } from "react-icons/fa";
+import Footer from "../Footer";
+import Navbar from "../Navbar";
 
 export default function Home() {
   const buttonStyles = {
@@ -17,8 +12,6 @@ export default function Home() {
   const [showModal, setShowModal] = useState(false);
   const [windowsDropdownOpen, setWindowsDropdownOpen] = useState(false);
   const dropdownRef = useRef(null);
-  const [menuOpen, setMenuOpen] = useState(false);
-  const menuRef = useRef(null);
   const [servers, setServers] = useState([]);
   const [rotatedServers, setRotatedServers] = useState([]);
 
@@ -56,49 +49,6 @@ export default function Home() {
     document.addEventListener("mousedown", handleClickOutside);
     return () => document.removeEventListener("mousedown", handleClickOutside);
   }, []);
-
-  useEffect(() => {
-    function handleClickOutside(event) {
-      if (menuRef.current && !menuRef.current.contains(event.target)) {
-        setMenuOpen(false);
-      }
-    }
-    document.addEventListener("mousedown", handleClickOutside);
-    return () => document.removeEventListener("mousedown", handleClickOutside);
-  }, []);
-
-  const navLinks = (
-    <>
-      <a
-        href="#"
-        onClick={(e) => {
-          e.preventDefault();
-          setShowModal(true);
-          setMenuOpen(false);
-        }}
-        className="block md:inline-block text-gray-800 px-3 py-2 hover:underline"
-      >
-        Advertise Your Server
-      </a>
-    </>
-  );
-
-  const discordButton = (
-    <a
-      href="https://discord.gg/HAv4ZaSJk5"
-      target="_blank"
-      rel="noopener noreferrer"
-      onClick={() => {
-        setMenuOpen(false);
-        setWindowsDropdownOpen(false);
-      }}
-      className="bg-gray-800 hover:bg-indigo-700 text-white rounded-full p-2 transition duration-200 inline-flex items-center justify-center"
-      aria-label="Join us on Discord"
-      title="Join us on Discord"
-    >
-      <FaDiscord size={20} />
-    </a>
-  );
 
   const serverList = (
     <aside className="bg-white border border-gray-300 p-4 rounded-lg shadow-lg w-full md:max-w-lg text-white md:sticky md:top-20 md:h-[calc(100vh-5rem)] overflow-y-auto ml-0 md:ml-4">
@@ -151,7 +101,7 @@ export default function Home() {
       {showModal && (
         <div className="fixed inset-0 bg-color-default bg-opacity-60 flex items-center justify-center z-50">
           <div className="bg-white border border-gray-300 rounded-lg shadow-xl p-6 max-w-md w-full mx-4 relative">
-            <h2 className="text-xl font-bold text-white mb-4">
+            <h2 className="text-xl font-bold text-gray-800 mb-4">
               🌟 Featured Server List
             </h2>
             <p className="text-gray-800 mb-4">
@@ -177,38 +127,8 @@ export default function Home() {
         </div>
       )}
 
-      <header className="bg-color-default text-gray-100 shadow-lg sticky top-0 z-50">
-        <div className="max-w-6xl mx-auto flex items-center justify-between p-4">
-          <h1 className="text-3xl text-gray-800 font-extrabold tracking-wide">
-            NetherLink
-          </h1>
-
-          <nav className="hidden md:flex items-center space-x-6 text-lg w-full ml-10">
-            {navLinks}
-            <div className="ml-auto">{discordButton}</div>
-          </nav>
-
-          <button
-            onClick={() => setMenuOpen(!menuOpen)}
-            className="md:hidden text-gray-200 hover:text-white focus:outline-none"
-            aria-label="Toggle menu"
-          >
-            {menuOpen ? <FaTimes size={24} /> : <FaBars size={24} />}
-          </button>
-        </div>
-
-        {menuOpen && (
-          <nav
-            ref={menuRef}
-            className="md:hidden bg-gray-700 border-t border-gray-600"
-          >
-            <div className="flex flex-col p-2 space-y-1">
-              {navLinks}
-              <div className="pt-2">{discordButton}</div>
-            </div>
-          </nav>
-        )}
-      </header>
+      {/* Gebruik je Navbar component hier */}
+      <Navbar/>
 
       <div className="max-w-6xl mx-auto px-6 flex flex-col md:flex-row gap-8 py-12">
         <main className="flex-1">
@@ -303,41 +223,40 @@ export default function Home() {
 
               <div className="bg-white border border-gray-300 p-6 rounded-lg shadow-lg text-white flex flex-col">
                 <h4 className="text-2xl text-gray-800 font-semibold mb-4">
-                  🎮 Console support
+                  🔒 Secure Proxy Tunneling
                 </h4>
                 <p className="text-gray-800">
-                  We support all consoles, including Xbox, PlayStation, and
-                  Nintendo Switch, for seamless cross-platform play.
+                  Our proxy system safely tunnels your connection to the remote
+                  server.
                 </p>
               </div>
 
               <div className="bg-white border border-gray-300 p-6 rounded-lg shadow-lg text-white flex flex-col">
                 <h4 className="text-2xl text-gray-800 font-semibold mb-4">
-                  🔥 Fast & Easy
+                  💻 Cross-Platform
                 </h4>
                 <p className="text-gray-800">
-                  We do not make use of any protocol libraries, less latency and
-                  more performance for you! Texturepacks are supported
+                  Runs on Windows and Mac, ensuring everyone can join in the
+                  fun.
                 </p>
               </div>
 
               <div className="bg-white border border-gray-300 p-6 rounded-lg shadow-lg text-white flex flex-col">
                 <h4 className="text-2xl text-gray-800 font-semibold mb-4">
-                  📡 IPv4 & IPv6
+                  🕹️ Easy To Use
                 </h4>
                 <p className="text-gray-800">
-                  Full support for both IPv4 and IPv6 networks to maximize
-                  connectivity.
+                  Simple UI with powerful features to improve your gaming
+                  experience.
                 </p>
               </div>
             </div>
           </section>
-
-          <div className="block md:hidden mt-8">{serverList}</div>
         </main>
 
-        <aside className="hidden md:block">{serverList}</aside>
+        {serverList}
       </div>
+
       <Footer />
     </div>
   );
