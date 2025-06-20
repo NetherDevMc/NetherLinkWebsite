@@ -6,7 +6,7 @@ import Login from './page/Login';
 import Dashboard from './page/Dashboard';
 import Checkout from './page/Checkout'; 
 import TransactionHistory from "./page/TransactionHistory";
-import Info from "./page/Info"; // Importeer de nieuwe pagina
+import Info from "./page/Info"; 
 
 import { AuthProvider, useAuth } from "./AuthContext";
 
@@ -30,7 +30,7 @@ export default function App() {
           <Route path="/terms" element={<Terms />} />
           <Route path="/privacy" element={<Privacy />} />
           <Route path="/login" element={<Login />} />
-          <Route path="/info" element={<Info />} /> {/* Nieuwe route */}
+          <Route path="/info" element={<Info />} /> 
           <Route path="/transactions" element={<TransactionHistory />} />
           <Route path="/checkout" element={
             <PrivateRoute>

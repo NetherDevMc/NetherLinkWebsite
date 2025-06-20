@@ -82,75 +82,36 @@ export default function Info() {
         </section>
         
         <section className="mb-12">
-          <div className="relative bg-gray-800 border border-gray-700 p-6 rounded-lg shadow-lg overflow-hidden gaming-card">
-            <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-emerald-500 to-blue-600"></div>
-            
-            <h2 className="text-2xl font-bold mb-6 text-emerald-400 flex items-center">
-              <FaInfoCircle className="mr-2" /> About NetherLink
-            </h2>
-            
-            <p className="text-gray-300 mb-4">
-              NetherLink is an innovative solution for connecting players with Minecraft servers. 
-              Our goal is to make it easier for all players to connect to external servers, 
-              regardless of the device they are using.
-            </p>
-            
-            <p className="text-gray-300 mb-4">
-              Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam auctor, nisl id euismod tincidunt, 
-              nisi nisl aliquam magna, eget aliquam nisl nunc vel nunc. Proin quis sem ut libero commodo auctor. 
-              Duis erat lorem, rhoncus et porttitor id, facilisis eget lectus. Donec eu metus diam. 
-            </p>
-            
-            <p className="text-gray-300 mb-4">
-              Fusce eget nibh fermentum, fringilla eros vel, consequat velit. Phasellus ac quam in magna hendrerit 
-              lobortis eu nec ipsum. Curabitur vel arcu ac turpis interdum mattis. Fusce laoreet metus eu mi mollis, 
-              a pulvinar lacus varius. Phasellus sodales, nunc vitae feugiat ultricies.
-            </p>
-            
-            <p className="text-gray-300">
-              Maecenas vestibulum aliquet orci, non malesuada arcu sollicitudin quis. Sed sodales leo sit amet 
-              metus sollicitudin, vel malesuada magna sollicitudin. Cras scelerisque eget augue id vulputate. 
-              Vivamus sagittis sapien tortor, id tristique diam lacinia non.
-            </p>
-            
-            <div className="absolute bottom-0 right-0 w-16 h-16 border-r-2 border-b-2 border-emerald-500/30 -mb-2 -mr-2 z-0"></div>
-            <div className="absolute top-0 left-0 w-16 h-16 border-l-2 border-t-2 border-blue-500/30 -mt-2 -ml-2 z-0"></div>
-          </div>
-        </section>
+  <div className="relative bg-gray-800 border border-gray-700 p-6 rounded-lg shadow-lg overflow-hidden gaming-card">
+    <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-emerald-500 to-blue-600"></div>
+    
+    <h2 className="text-2xl font-bold mb-6 text-emerald-400 flex items-center">
+      <FaInfoCircle className="mr-2" /> About NetherLink
+    </h2>
+    
+    <p className="text-gray-300 mb-4">
+      NetherLink is a lightweight app that allows Minecraft: Bedrock Edition players on consoles like PlayStation and Switch to connect to external servers using the LAN multiplayer menu.
+    </p>
+
+    <p className="text-gray-300 mb-4">
+      It works by broadcasting a fake LAN server on your local network. When a console searches for LAN games, it discovers NetherLink's proxy server. Upon connection, players are automatically redirected to a remote Minecraft server of your choice — even if it's hosted externally.
+    </p>
+
+    <p className="text-gray-300 mb-4">
+      NetherLink supports both IPv4 and IPv6, provides real-time logs in the interface, and includes start/stop control with automatic socket management. It’s ideal for GeyserMC-based servers and simplifies the process of joining online servers from closed platforms.
+    </p>
+
+    <p className="text-gray-300">
+      No complicated setup, no DNS changes, no extra apps — just launch NetherLink, set your server address, and start playing. Whether you're hosting a server for friends or running a public Bedrock server, NetherLink makes access seamless for everyone.
+    </p>
+
+    <div className="absolute bottom-0 right-0 w-16 h-16 border-r-2 border-b-2 border-emerald-500/30 -mb-2 -mr-2 z-0"></div>
+    <div className="absolute top-0 left-0 w-16 h-16 border-l-2 border-t-2 border-blue-500/30 -mt-2 -ml-2 z-0"></div>
+  </div>
+</section>
+
         
-        <section>
-          <div className="relative bg-gray-800 border border-gray-700 p-6 rounded-lg shadow-lg overflow-hidden gaming-card">
-            <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-emerald-500 to-blue-600"></div>
-            
-            <h2 className="text-2xl font-bold mb-6 text-emerald-400 flex items-center">
-              <FaMagic className="mr-2" /> Future Developments
-            </h2>
-            
-            <p className="text-gray-300 mb-4">
-              At NetherLink, we are constantly working on new features and improvements. Here are some 
-              developments we're working on:
-            </p>
-            
-            <p className="text-gray-300 mb-4">
-              Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam eget urna vitae ex molestie cursus. 
-              Nulla facilisi. Sed non aliquet magna, at tempus magna. Cras vel luctus magna. Ut ac hendrerit est, 
-              non fringilla justo. Nullam euismod consectetur tellus, vel volutpat ex ultricies sed.
-            </p>
-            
-            <p className="text-gray-300 mb-4">
-              Curabitur sollicitudin, quam ut hendrerit tincidunt, arcu turpis lobortis arcu, at luctus risus elit eu 
-              purus. Nullam egestas sapien sit amet augue fermentum, vel finibus libero tincidunt. Proin vitae massa 
-              tincidunt, gravida magna in, feugiat odio.
-            </p>
-            
-            <p className="text-gray-300">
-              Stay tuned for more updates and new features that will make the Minecraft multiplayer experience even better!
-            </p>
-            
-            <div className="absolute bottom-0 right-0 w-16 h-16 border-r-2 border-b-2 border-emerald-500/30 -mb-2 -mr-2 z-0"></div>
-            <div className="absolute top-0 left-0 w-16 h-16 border-l-2 border-t-2 border-blue-500/30 -mt-2 -ml-2 z-0"></div>
-          </div>
-        </section>
+    
       </div>
       
       <Footer />
