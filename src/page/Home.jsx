@@ -219,11 +219,10 @@ export default function Home() {
         <div className="relative z-10 max-w-6xl mx-auto px-6 py-16 md:py-20">
           <div className="text-center">
             <h1 className="text-3xl md:text-4xl font-bold mb-4 text-emerald-400 pixelated">
-              Connect to Any Minecraft Server
+              Connecting made easy
             </h1>
             <p className="text-xl text-gray-300 max-w-2xl mx-auto mb-4">
-              Join your favorite Minecraft servers from any device with NetherLink
-            </p>
+      Experience seamless Minecraft multiplayer with NetherLink's advanced UDP tunneling - turning remote servers into local LAN experiences            </p>
             <div className="w-24 h-1 bg-emerald-500 mx-auto mb-8 mt-4"></div>
           </div>
         </div>
@@ -242,7 +241,7 @@ export default function Home() {
                   Download NetherLink
                 </h3>
                 <p className="text-gray-300 mb-8 max-w-xl mx-auto">
-                  Choose your platform and start connecting to Minecraft servers immediately:
+                  Choose your platform you want to run NetherLink on:
                 </p>
 
                 <div className="flex flex-wrap justify-center gap-5 max-w-md mx-auto">
@@ -274,79 +273,75 @@ export default function Home() {
             </section>
 
             <section id="features" className="py-10">
-              <h3 className="text-2xl font-bold text-center mb-8 text-emerald-400 gaming-title">
-                Features
-              </h3>
-              <div className="grid gap-6 md:grid-cols-2">
-                <div className="bg-gray-800 border border-gray-700 p-5 rounded-lg shadow-lg gaming-card">
-                  <div className="flex items-center mb-3">
-                    <div className="bg-emerald-900/50 p-3 rounded-lg border border-emerald-600/30">
-                      <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 text-emerald-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 12a9 9 0 01-9 9m9-9a9 9 0 00-9-9m9 9H3m9 9a9 9 0 01-9-9m9 9c1.657 0 3-4.03 3-9s-1.343-9-3-9m0 18c-1.657 0-3-4.03-3-9s1.343-9 3-9" />
-                      </svg>
-                    </div>
-                    <h4 className="text-lg text-emerald-400 font-medium ml-3 line-clamp-1">
-                      LAN Server Broadcasting
-                    </h4>
-                  </div>
-                  <p className="text-gray-300 text-sm">
-                    Connect to external servers using LAN Discovery for easy
-                    multiplayer for all consoles.
-                  </p>
-                </div>
+  <h3 className="text-2xl font-bold text-center mb-8 text-emerald-400 gaming-title">
+    Features
+  </h3>
+  <div className="grid gap-6 md:grid-cols-2">
+    <div className="bg-gray-800 border border-gray-700 p-5 rounded-lg shadow-lg gaming-card">
+      <div className="flex items-center mb-3">
+        <div className="bg-emerald-900/50 p-3 rounded-lg border border-emerald-600/30">
+          <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 text-emerald-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 12a9 9 0 01-9 9m9-9a9 9 0 00-9-9m9 9H3m9 9a9 9 0 01-9-9m9 9c1.657 0 3-4.03 3-9s-1.343-9-3-9m0 18c-1.657 0-3-4.03-3-9s1.343-9 3-9" />
+          </svg>
+        </div>
+        <h4 className="text-lg text-emerald-400 font-medium ml-3 line-clamp-1">
+          Direct UDP Tunneling
+        </h4>
+      </div>
+      <p className="text-gray-300 text-sm">
+        Broadcasts a virtual LAN server on your local network while seamlessly redirecting traffic to remote servers for superior latency.
+      </p>
+    </div>
 
-                <div className="bg-gray-800 border border-gray-700 p-5 rounded-lg shadow-lg gaming-card">
-                  <div className="flex items-center mb-3">
-                    <div className="bg-blue-900/50 p-3 rounded-lg border border-blue-600/30">
-                      <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 text-blue-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" />
-                      </svg>
-                    </div>
-                    <h4 className="text-lg text-blue-400 font-medium ml-3 line-clamp-1">
-                      Secure Proxy Tunneling
-                    </h4>
-                  </div>
-                  <p className="text-gray-300 text-sm">
-                    Our proxy system safely tunnels your connection to the remote
-                    server, ensuring security.
-                  </p>
-                </div>
+    <div className="bg-gray-800 border border-gray-700 p-5 rounded-lg shadow-lg gaming-card">
+      <div className="flex items-center mb-3">
+        <div className="bg-blue-900/50 p-3 rounded-lg border border-blue-600/30">
+          <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 text-blue-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" />
+          </svg>
+        </div>
+        <h4 className="text-lg text-blue-400 font-medium ml-3 line-clamp-1">
+          Protocol-Independent
+        </h4>
+      </div>
+      <p className="text-gray-300 text-sm">
+        Works without relying on Bedrock protocols, meaning faster connections, fewer updates needed, and better stability for your gameplay.
+      </p>
+    </div>
 
-                <div className="bg-gray-800 border border-gray-700 p-5 rounded-lg shadow-lg gaming-card">
-                  <div className="flex items-center mb-3">
-                    <div className="bg-purple-900/50 p-3 rounded-lg border border-purple-600/30">
-                      <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 text-purple-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9.75 17L9 20l-1 1h8l-1-1-.75-3M3 13h18M5 17h14a2 2 0 002-2V5a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
-                      </svg>
-                    </div>
-                    <h4 className="text-lg text-purple-400 font-medium ml-3 line-clamp-1">
-                      Cross-Platform
-                    </h4>
-                  </div>
-                  <p className="text-gray-300 text-sm">
-                    Runs on Windows and Mac, ensuring everyone can join in the
-                    fun regardless of their system.
-                  </p>
-                </div>
+    <div className="bg-gray-800 border border-gray-700 p-5 rounded-lg shadow-lg gaming-card">
+      <div className="flex items-center mb-3">
+        <div className="bg-purple-900/50 p-3 rounded-lg border border-purple-600/30">
+          <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 text-purple-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9.75 17L9 20l-1 1h8l-1-1-.75-3M3 13h18M5 17h14a2 2 0 002-2V5a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
+          </svg>
+        </div>
+        <h4 className="text-lg text-purple-400 font-medium ml-3 line-clamp-1">
+          Universal Console Support
+        </h4>
+      </div>
+      <p className="text-gray-300 text-sm">
+        Compatible with all gaming consoles and platforms that support LAN play, making cross-platform multiplayer effortless.
+      </p>
+    </div>
 
-                <div className="bg-gray-800 border border-gray-700 p-5 rounded-lg shadow-lg gaming-card">
-                  <div className="flex items-center mb-3">
-                    <div className="bg-amber-900/50 p-3 rounded-lg border border-amber-600/30">
-                      <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 text-amber-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M14.828 14.828a4 4 0 01-5.656 0M9 10h.01M15 10h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
-                      </svg>
-                    </div>
-                    <h4 className="text-lg text-amber-400 font-medium ml-3 line-clamp-1">
-                      Easy To Use
-                    </h4>
-                  </div>
-                  <p className="text-gray-300 text-sm">
-                    Simple UI with powerful features to improve your gaming
-                    experience. No technical knowledge needed.
-                  </p>
-                </div>
-              </div>
-            </section>
+    <div className="bg-gray-800 border border-gray-700 p-5 rounded-lg shadow-lg gaming-card">
+      <div className="flex items-center mb-3">
+        <div className="bg-amber-900/50 p-3 rounded-lg border border-amber-600/30">
+          <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 text-amber-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M14.828 14.828a4 4 0 01-5.656 0M9 10h.01M15 10h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+          </svg>
+        </div>
+        <h4 className="text-lg text-amber-400 font-medium ml-3 line-clamp-1">
+          Plug-and-Play Solution
+        </h4>
+      </div>
+      <p className="text-gray-300 text-sm">
+        Just run the app and connect - no technical knowledge required. Your console automatically discovers the server as if it were on your local network.
+      </p>
+    </div>
+  </div>
+</section>
           </main>
 
           {serverList}
