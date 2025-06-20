@@ -1,6 +1,5 @@
-// Navbar.jsx
 import { useState } from "react";
-import { FaDiscord, FaBars, FaTimes } from "react-icons/fa";
+import { FaDiscord, FaBars, FaTimes, FaInfoCircle, FaSignInAlt, FaTachometerAlt, FaSignOutAlt } from "react-icons/fa";
 import { useAuth } from "./AuthContext";
 import { useNavigate } from "react-router-dom";
 import { signOut } from "firebase/auth";
@@ -8,7 +7,6 @@ import { auth } from "./js/Firebase";
 
 export default function Navbar() {
   const [menuOpen, setMenuOpen] = useState(false);
-  const [modalOpen, setModalOpen] = useState(false);
   const { user, setUser } = useAuth();
   const navigate = useNavigate();
 
@@ -23,38 +21,43 @@ export default function Navbar() {
   };
 
   const btnClass =
-    "px-4 py-2 rounded-md text-sm font-medium transition focus:outline-none";
+    "px-4 py-2 rounded-lg text-sm font-medium transition focus:outline-none gaming-nav-button flex items-center gap-2";
+
+  const InfoButton = (
+    <button
+      onClick={() => { navigate("/info"); setMenuOpen(false); }}
+      className={`${btnClass} bg-gray-700 hover:bg-gray-600 text-emerald-400`}
+    >
+      <FaInfoCircle /> Info
+    </button>
+  );
 
   const LoggedOutButtons = (
     <div className="flex items-center space-x-3">
-      <button
-        onClick={() => { setModalOpen(true); setMenuOpen(false); }}
-        className={`${btnClass} bg-gray-200 text-gray-700 hover:bg-gray-300`}
-      >
-        Advertise
-      </button>
+      {InfoButton}
       <button
         onClick={() => { navigate("/login"); setMenuOpen(false); }}
-        className={`${btnClass} bg-gray-100 text-gray-800 hover:bg-gray-200`}
+        className={`${btnClass} bg-blue-600 hover:bg-blue-500 text-white`}
       >
-        Login
+        <FaSignInAlt /> Login
       </button>
     </div>
   );
 
   const LoggedInButtons = (
     <div className="flex items-center space-x-3">
+      {InfoButton}
       <button
         onClick={() => { navigate("/dashboard"); setMenuOpen(false); }}
-        className={`${btnClass} bg-gray-100 text-gray-800 hover:bg-gray-200`}
+        className={`${btnClass} bg-gray-700 hover:bg-gray-600 text-amber-400`}
       >
-        Dashboard
+        <FaTachometerAlt /> Dashboard
       </button>
       <button
         onClick={() => { handleLogout(); setMenuOpen(false); }}
-        className={`${btnClass} bg-gray-100 text-gray-800 hover:bg-gray-200`}
+        className={`${btnClass} bg-gray-700 hover:bg-gray-600 text-red-400`}
       >
-        Logout
+        <FaSignOutAlt /> Logout
       </button>
     </div>
   );
@@ -65,7 +68,7 @@ export default function Navbar() {
       target="_blank"
       rel="noopener noreferrer"
       onClick={() => setMenuOpen(false)}
-      className="ml-4 bg-gray-300 hover:bg-gray-400 text-gray-800 rounded-full p-2 transition"
+      className="ml-4 bg-indigo-700 hover:bg-indigo-600 text-white rounded-lg p-2 transition gaming-discord-btn"
       aria-label="Join us on Discord"
       title="Join us on Discord"
     >
@@ -75,10 +78,10 @@ export default function Navbar() {
 
   return (
     <>
-      <header className="bg-white shadow sticky top-0 z-50">
-        <div className="max-w-6xl mx-auto flex items-center justify-between px-6 py-4">
+      <header className="bg-gray-900 border-b border-gray-800 sticky top-0 z-50">
+        <div className="max-w-6xl mx-auto flex items-center justify-between px-6 py-3">
           <h1
-            className="text-2xl font-semibold text-gray-800 cursor-pointer"
+            className="text-2xl font-semibold text-emerald-400 cursor-pointer pixelated-logo"
             onClick={() => navigate("/")}
           >
             NetherLink
@@ -89,47 +92,62 @@ export default function Navbar() {
           </div>
           <button
             onClick={() => setMenuOpen(!menuOpen)}
-            className="md:hidden text-gray-600 hover:text-gray-800 focus:outline-none"
+            className="md:hidden text-emerald-400 hover:text-emerald-300 focus:outline-none"
             aria-label="Toggle menu"
           >
             {menuOpen ? <FaTimes size={24} /> : <FaBars size={24} />}
           </button>
         </div>
         {menuOpen && (
-          <nav className="md:hidden bg-white border-t border-gray-200">
-            <div className="flex flex-col p-4 space-y-2">
+          <nav className="md:hidden bg-gray-800 border-t border-gray-700">
+            <div className="flex flex-col p-4 space-y-3">
               {user ? LoggedInButtons : LoggedOutButtons}
-              {discordButton}
+              <div className="flex justify-center mt-2">
+                {discordButton}
+              </div>
             </div>
           </nav>
         )}
       </header>
 
-      {/* Verduisterde overlay + modal */}
-      {modalOpen && (
-        <div
-          className="fixed inset-0 bg-black bg-opacity-90 backdrop-blur-sm flex items-center justify-center z-50"
-          onClick={() => setModalOpen(false)}
-        >
-          <div
-            className="relative bg-white rounded-lg max-w-sm w-full p-6 shadow-xl z-60"
-            onClick={(e) => e.stopPropagation()}
-          >
-            <h2 className="text-xl font-semibold text-gray-800 mb-3">
-              Advertise Your Server
-            </h2>
-            <p className="text-gray-600 mb-5">
-              Plaats hier je advertentie-informatie: prijzen, banner-vereisten, en contactgegevens.
-            </p>
-            <button
-              onClick={() => setModalOpen(false)}
-              className={`${btnClass} bg-gray-200 text-gray-800 hover:bg-gray-300 w-full`}
-            >
-              Sluit
-            </button>
-          </div>
-        </div>
-      )}
+      <style jsx global>{`
+        .gaming-nav-button {
+          position: relative;
+          overflow: hidden;
+          border: 1px solid rgba(16, 185, 129, 0.2);
+        }
+        
+        .gaming-nav-button::after {
+          content: '';
+          position: absolute;
+          top: 0;
+          left: -100%;
+          width: 100%;
+          height: 100%;
+          background: linear-gradient(90deg, transparent, rgba(255,255,255,0.1), transparent);
+          transition: 0.5s;
+        }
+        
+        .gaming-nav-button:hover::after {
+          left: 100%;
+        }
+        
+        .gaming-discord-btn {
+          position: relative;
+          overflow: hidden;
+          box-shadow: 0 0 5px rgba(79, 70, 229, 0.5);
+          transition: all 0.3s ease;
+        }
+        
+        .gaming-discord-btn:hover {
+          box-shadow: 0 0 10px rgba(79, 70, 229, 0.8);
+        }
+        
+        .pixelated-logo {
+          text-shadow: 2px 2px 0px #003b25;
+          letter-spacing: 1px;
+        }
+      `}</style>
     </>
   );
 }

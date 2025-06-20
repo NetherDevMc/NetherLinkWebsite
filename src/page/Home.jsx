@@ -1,263 +1,459 @@
-import { useState, useRef, useEffect } from "react";
-import { FaWindows, FaApple } from "react-icons/fa";
+import { useState, useEffect } from "react";
+import { FaWindows, FaApple, FaServer, FaGamepad } from "react-icons/fa";
 import Footer from "../Footer";
 import Navbar from "../Navbar";
+import WindowsDownloadModal from "./WindowsDownloadModal";
 
 export default function Home() {
-  const buttonStyles = {
-    windows: "bg-blue-800",
-    mac: "bg-gray-700",
-  };
-
-  const [showModal, setShowModal] = useState(false);
-  const [windowsDropdownOpen, setWindowsDropdownOpen] = useState(false);
-  const dropdownRef = useRef(null);
+  const [windowsModalOpen, setWindowsModalOpen] = useState(false);
   const [servers, setServers] = useState([]);
   const [rotatedServers, setRotatedServers] = useState([]);
+  const [isLoading, setIsLoading] = useState(true);
+  const [rotationProgress, setRotationProgress] = useState(0);
+  
+  const [isMounted, setIsMounted] = useState(false);
+  
+  useEffect(() => {
+    setIsMounted(true);
+  }, []);
 
   useEffect(() => {
-    fetch(
-      "https://raw.githubusercontent.com/NetherLinkMC/NetherLinkServerList/refs/heads/main/servers.json"
-    )
+    setIsLoading(true);
+    fetch("https://backend.netherlink.net/api/servers")
       .then((res) => res.json())
-      .then((data) => setServers(data))
-      .catch((err) => console.error("Failed to load servers:", err));
+      .then((data) => {
+        setServers(data);
+        setIsLoading(false);
+      })
+      .catch((err) => {
+        console.error("Failed to load servers:", err);
+        fetch(
+          "https://raw.githubusercontent.com/NetherLinkMC/NetherLinkServerList/refs/heads/main/servers.json"
+        )
+          .then((res) => res.json())
+          .then((data) => {
+            setServers(data);
+            setIsLoading(false);
+          })
+          .catch((err) => {
+            console.error("Failed to load all servers:", err);
+            setIsLoading(false);
+          });
+      });
   }, []);
 
   useEffect(() => {
     if (servers.length === 0) return;
 
     setRotatedServers(servers);
+    setRotationProgress(0);
 
-    const interval = setInterval(() => {
+    const rotationInterval = 5000;
+    const updateInterval = 50; 
+    
+    const progressTimer = setInterval(() => {
+      setRotationProgress(prev => {
+        const newProgress = prev + (updateInterval / rotationInterval * 100);
+        return newProgress >= 100 ? 100 : newProgress;
+      });
+    }, updateInterval);
+
+    const rotationTimer = setInterval(() => {
       setRotatedServers((current) => {
         if (current.length === 0) return current;
         const [first, ...rest] = current;
         return [...rest, first];
       });
-    }, 10000);
+      setRotationProgress(0);
+    }, rotationInterval);
 
-    return () => clearInterval(interval);
+    return () => {
+      clearInterval(rotationTimer);
+      clearInterval(progressTimer);
+    };
   }, [servers]);
 
   useEffect(() => {
-    function handleClickOutside(event) {
-      if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
-        setWindowsDropdownOpen(false);
-      }
+    if (windowsModalOpen) {
+      document.body.style.overflow = 'hidden';
+    } else {
+      document.body.style.overflow = '';
     }
-    document.addEventListener("mousedown", handleClickOutside);
-    return () => document.removeEventListener("mousedown", handleClickOutside);
-  }, []);
+    
+    return () => {
+      document.body.style.overflow = '';
+    };
+  }, [windowsModalOpen]);
+
+  const copyToClipboard = (address, port) => {
+    const textToCopy = `${address}:${port}`;
+    navigator.clipboard
+      .writeText(textToCopy)
+      .then(() => {
+        const toast = document.createElement("div");
+        toast.className = "fixed bottom-4 right-4 bg-green-600 text-white px-4 py-2 rounded-lg shadow-xl z-50 animate-fade-in-out";
+        toast.innerHTML = `<div class="flex items-center"><svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg> Copied ${textToCopy}</div>`;
+        document.body.appendChild(toast);
+
+        setTimeout(() => {
+          toast.classList.add("animate-fade-out");
+          setTimeout(() => {
+            document.body.removeChild(toast);
+          }, 300);
+        }, 2000);
+      })
+      .catch(() => {
+        alert("Failed to copy to clipboard");
+      });
+  };
 
   const serverList = (
-    <aside className="bg-white border border-gray-300 p-4 rounded-lg shadow-lg w-full md:max-w-lg text-white md:sticky md:top-20 md:h-[calc(100vh-5rem)] overflow-y-auto ml-0 md:ml-4">
-      <h2 className="text-xl text-gray-800 font-bold mb-4">
-        🌟 Featured Servers List
-      </h2>
-      <div className="flex flex-col gap-4">
-        {servers.length === 0 && (
-          <p className="text-gray-800">Loading servers...</p>
+    <aside className="bg-gray-800 border border-gray-700 p-4 rounded-lg shadow-lg w-full md:max-w-sm md:sticky md:top-20 md:h-[calc(100vh-5rem)] overflow-y-auto ml-0 md:ml-4">
+      <div className="flex justify-between items-center mb-3">
+        <h2 className="text-lg text-emerald-400 font-bold flex items-center">
+          <FaServer className="mr-2" /> Featured Servers
+        </h2>
+        {servers.length > 1 && (
+          <span className="text-xs text-gray-400 bg-gray-700 px-2 py-1 rounded">
+            5s rotation
+          </span>
         )}
+      </div>
 
-        {rotatedServers.map(({ name, address, port, background }) => (
+      {servers.length > 1 && (
+        <div className="w-full h-1 bg-gray-700 rounded-full mb-4 overflow-hidden">
           <div
-            key={name}
-            className="rounded-lg border border-gray-300 p-4 bg-cover bg-center shadow-lg cursor-pointer transform hover:scale-105 transition-transform"
-            style={{
-              backgroundImage: `url(${background})`,
-              minHeight: "100px",
-              display: "flex",
-              flexDirection: "column",
-              justifyContent: "flex-end",
-              color: "white",
-              textShadow: "0 0 5px rgba(0,0,0,0.8)",
-            }}
-            onClick={() => {
-              const textToCopy = `${address}:${port}`;
-              navigator.clipboard
-                .writeText(textToCopy)
-                .then(() => {
-                  alert(`Copied ${textToCopy} to clipboard!`);
-                })
-                .catch(() => {
-                  alert("Failed to copy to clipboard");
-                });
-            }}
-            title={`Click to copy ${address}:${port}`}
-          >
-            <h3 className="text-lg font-bold">{name}</h3>
-            <p className="text-sm">
-              {address}:{port}
-            </p>
+            className="h-full bg-emerald-500 rounded-full transition-all ease-linear"
+            style={{ width: `${rotationProgress}%` }}
+          />
+        </div>
+      )}
+
+      <div className="flex flex-col gap-3">
+        {isLoading ? (
+          <div className="h-32 flex items-center justify-center">
+            <div className="pixel-spinner">
+              <div className="pixel-spinner-inner"></div>
+            </div>
           </div>
-        ))}
+        ) : servers.length === 0 ? (
+          <div className="text-gray-400 text-center py-8 bg-gray-750 rounded-lg border border-gray-600">
+            <FaGamepad className="mx-auto text-3xl mb-2 text-gray-500" />
+            <p>No servers found</p>
+          </div>
+        ) : (
+          rotatedServers.map(({ name, address, port, background }, index) => {
+            const validBackground = background && 
+              (background.startsWith('http://') || 
+               background.startsWith('https://') || 
+               background.startsWith('/'));
+            
+            return (
+              <div
+                key={`${address}:${port}`}
+                className={`rounded-lg ${index === 0 ? 'border-2 border-emerald-500' : 'border border-gray-600'} shadow-lg cursor-pointer transition-all duration-200 hover:-translate-y-1 hover:shadow-emerald-600/20 hover:shadow-lg relative group overflow-hidden h-[140px]`}
+                onClick={() => copyToClipboard(address, port)}
+                title={`Click to copy ${address}:${port}`}
+              >
+                {validBackground ? (
+                  <div 
+                    className="absolute inset-0 bg-cover bg-center" 
+                    style={{
+                      backgroundImage: `url(${background})`,
+                      filter: 'brightness(0.9)'
+                    }}
+                  ></div>
+                ) : (
+                  <div className="absolute inset-0 bg-gray-700"></div>
+                )}
+
+                <div className="absolute inset-0 bg-gradient-to-t from-black via-black/70 to-transparent p-3 flex flex-col justify-end">
+                  {index === 0 && (
+                    <div className="absolute top-0 right-0 bg-emerald-500 text-black text-xs px-2 py-1 font-medium z-10">
+                      TOP
+                    </div>
+                  )}
+                  
+                  <div className="flex items-center">
+                    <span className="bg-black/70 px-2 py-1 rounded text-sm text-gray-200 relative z-10">
+                      {address}:{port}
+                    </span>
+                    <svg xmlns="http://www.w3.org/2000/svg" className="h-3 w-3 ml-2 text-emerald-400 opacity-0 group-hover:opacity-100 transition-opacity" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 7v8a2 2 0 002 2h6M8 7V5a2 2 0 012-2h4.586a1 1 0 01.707.293l4.414 4.414a1 1 0 01.293.707V15a2 2 0 01-2 2h-2M8 7H6a2 2 0 00-2 2v10a2 2 0 002 2h8a2 2 0 002-2v-2" />
+                    </svg>
+                  </div>
+                  
+                  <div className="absolute inset-0 flex items-center justify-center bg-black/50 opacity-0 group-hover:opacity-100 transition-opacity">
+                    <div className="bg-emerald-500 text-white text-xs px-3 py-2 rounded font-medium flex items-center">
+                      <svg className="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 5H6a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2v-1M8 5a2 2 0 002 2h2a2 2 0 002-2M8 5a2 2 0 012-2h2a2 2 0 012 2" />
+                      </svg>
+                      Click to copy server address
+                    </div>
+                  </div>
+                </div>
+              </div>
+            );
+          })
+        )}
       </div>
     </aside>
   );
 
   return (
-    <div className="min-h-screen bg-color-default text-gray-800 font-sans">
-      {showModal && (
-        <div className="fixed inset-0 bg-color-default bg-opacity-60 flex items-center justify-center z-50">
-          <div className="bg-white border border-gray-300 rounded-lg shadow-xl p-6 max-w-md w-full mx-4 relative">
-            <h2 className="text-xl font-bold text-gray-800 mb-4">
-              🌟 Featured Server List
-            </h2>
-            <p className="text-gray-800 mb-4">
-              Server owners have the opportunity to purchase a spot on our
-              Featured Server List. The higher the position you choose, the
-              greater the visibility.
+    <div className="min-h-screen bg-gray-900 text-gray-200 font-sans">
+      <Navbar />
+      
+      {isMounted && (
+        <WindowsDownloadModal 
+          isOpen={windowsModalOpen} 
+          onClose={() => setWindowsModalOpen(false)} 
+        />
+      )}
+      
+      <div className="relative bg-gray-900 overflow-hidden border-b border-gray-800">
+        <div className="absolute inset-0 z-0 overflow-hidden">
+          <div className="cubes"></div>
+        </div>
+        
+        <div className="relative z-10 max-w-6xl mx-auto px-6 py-16 md:py-20">
+          <div className="text-center">
+            <h1 className="text-3xl md:text-4xl font-bold mb-4 text-emerald-400 pixelated">
+              Connect to Any Minecraft Server
+            </h1>
+            <p className="text-xl text-gray-300 max-w-2xl mx-auto mb-4">
+              Join your favorite Minecraft servers from any device with NetherLink
             </p>
-            <p className="text-gray-800 mb-4">
-              To get started, please contact our staff on Discord for further
-              details regarding pricing and payment.
-            </p>
-            <p className="text-gray-800 mb-6">
-              Once your payment is confirmed, we'll add your server to the
-              featured list.
-            </p>
-            <button
-              onClick={() => setShowModal(false)}
-              className="mt-4 bg-red-600 hover:bg-red-700 text-white px-4 py-2 rounded-lg w-full"
-            >
-              Close
-            </button>
+            <div className="w-24 h-1 bg-emerald-500 mx-auto mb-8 mt-4"></div>
           </div>
         </div>
-      )}
+      </div>
+      
+      <div className="max-w-6xl mx-auto px-6 py-12">
+        <div className="flex flex-col md:flex-row gap-8">
+          <main className="flex-1">
+            <section
+              id="download"
+              className="relative bg-gray-800 py-10 px-6 text-center shadow-xl rounded-lg mb-12 overflow-hidden gaming-card"
+            >
+              <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-emerald-500 to-blue-600"></div>
+              <div className="relative z-10">
+                <h3 className="text-2xl font-bold mb-6 text-emerald-400">
+                  Download NetherLink
+                </h3>
+                <p className="text-gray-300 mb-8 max-w-xl mx-auto">
+                  Choose your platform and start connecting to Minecraft servers immediately:
+                </p>
 
-      {/* Gebruik je Navbar component hier */}
-      <Navbar/>
-
-      <div className="max-w-6xl mx-auto px-6 flex flex-col md:flex-row gap-8 py-12">
-        <main className="flex-1">
-          <section
-            id="download"
-            className="bg-white border border-gray-300 py-12 text-center shadow-inner rounded-lg mb-12"
-          >
-            <h3 className="text-3xl font-bold mb-8 text-gray-800">
-              📥 Download NetherLink
-            </h3>
-            <p className="text-gray-800 mb-8 max-w-xl mx-auto">
-              Choose your platform and start downloading immediately:
-            </p>
-
-            <div className="flex flex-wrap justify-center gap-5 max-w-4xl mx-auto px-4">
-              <div
-                className="flex-1 min-w-[150px] max-w-[180px] relative inline-block text-left"
-                ref={dropdownRef}
-              >
-                <button
-                  onClick={() => setWindowsDropdownOpen(!windowsDropdownOpen)}
-                  className={`${buttonStyles.windows} flex items-center justify-center gap-3 px-6 py-3 rounded-full text-lg font-semibold text-white shadow-lg focus:outline-none w-full`}
-                  aria-haspopup="true"
-                  aria-expanded={windowsDropdownOpen}
-                >
-                  <FaWindows className="text-2xl" />
-                  Windows
-                  <svg
-                    className="ml-2 h-4 w-4"
-                    fill="none"
-                    stroke="currentColor"
-                    viewBox="0 0 24 24"
-                    xmlns="http://www.w3.org/2000/svg"
-                  >
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      strokeWidth={2}
-                      d="M19 9l-7 7-7-7"
-                    />
-                  </svg>
-                </button>
-
-                {windowsDropdownOpen && (
-                  <div className="origin-top-right absolute left-0 mt-2 w-56 rounded-md shadow-lg bg-gray-800 ring-1 ring-black ring-opacity-5 z-10">
-                    <div className="py-1">
-                      <a
-                        href="https://github.com/NetherLinkMC/NetherLinkWebsite/raw/refs/heads/main/downloads/windows/NetherLinkInstaller.exe"
-                        className="block px-4 py-2 text-sm text-white hover:bg-gray-700"
-                        onClick={() => setWindowsDropdownOpen(false)}
-                      >
-                        Installer (.exe)
-                      </a>
-                      <a
-                        href="https://github.com/NetherLinkMC/NetherLinkWebsite/raw/refs/heads/main/downloads/windows/NetherLink.rar"
-                        className="block px-4 py-2 text-sm text-white hover:bg-gray-700"
-                        onClick={() => setWindowsDropdownOpen(false)}
-                      >
-                        Portable (.rar)
-                      </a>
-                    </div>
+                <div className="flex flex-wrap justify-center gap-5 max-w-md mx-auto">
+                  <div className="flex-1 min-w-[150px] max-w-[200px]">
+                    <button
+                      onClick={() => setWindowsModalOpen(true)}
+                      className="windows-modal-trigger bg-blue-600 hover:bg-blue-500 flex items-center justify-center gap-2 px-5 py-3 rounded-lg text-base font-medium text-white shadow-lg focus:outline-none w-full transition gaming-button"
+                      aria-haspopup="dialog"
+                    >
+                      <FaWindows className="text-lg" />
+                      Windows
+                    </button>
                   </div>
-                )}
+
+                  <div className="flex-1 min-w-[150px] max-w-[200px]">
+                    <a
+                      href="https://github.com/NetherLinkMC/NetherLinkWebsite/raw/refs/heads/main/downloads/apple/NetherLink.dmg"
+                      className="bg-gray-700 hover:bg-gray-600 flex items-center justify-center gap-2 px-5 py-3 rounded-lg text-base font-medium text-white shadow-lg focus:outline-none w-full transition gaming-button"
+                    >
+                      <FaApple className="text-lg" />
+                      Mac
+                    </a>
+                  </div>
+                </div>
               </div>
 
-              <div className="flex-1 min-w-[150px] max-w-[180px]">
-                <a
-                  href="/NetherLinkMac.zip"
-                  className={`${buttonStyles.mac} flex items-center justify-center gap-3 px-6 py-3 rounded-full text-lg font-semibold text-white shadow-lg focus:outline-none w-full`}
-                >
-                  <FaApple className="text-2xl" />
-                  Mac
-                </a>
-              </div>
-            </div>
-          </section>
+              <div className="absolute bottom-0 right-0 w-16 h-16 border-r-2 border-b-2 border-emerald-500/30 -mb-2 -mr-2 z-0"></div>
+              <div className="absolute top-0 left-0 w-16 h-16 border-l-2 border-t-2 border-blue-500/30 -mt-2 -ml-2 z-0"></div>
+            </section>
 
-          <section id="features" className="py-20">
-            <h3 className="text-3xl font-bold text-center mb-12 text-gray-800">
-              🚀 Features
-            </h3>
-            <div className="grid gap-10 md:grid-cols-2">
-              <div className="bg-white border border-gray-300 p-6 rounded-lg shadow-lg text-white flex flex-col">
-                <h4 className="text-2xl text-gray-800 font-semibold mb-4">
-                  🌍 LAN Server Broadcasting
-                </h4>
-                <p className="text-gray-800">
-                  Connect to external servers using LAN Discovery for easy
-                  multiplayer for all consoles.
-                </p>
-              </div>
+            <section id="features" className="py-10">
+              <h3 className="text-2xl font-bold text-center mb-8 text-emerald-400 gaming-title">
+                Features
+              </h3>
+              <div className="grid gap-6 md:grid-cols-2">
+                <div className="bg-gray-800 border border-gray-700 p-5 rounded-lg shadow-lg gaming-card">
+                  <div className="flex items-center mb-3">
+                    <div className="bg-emerald-900/50 p-3 rounded-lg border border-emerald-600/30">
+                      <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 text-emerald-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 12a9 9 0 01-9 9m9-9a9 9 0 00-9-9m9 9H3m9 9a9 9 0 01-9-9m9 9c1.657 0 3-4.03 3-9s-1.343-9-3-9m0 18c-1.657 0-3-4.03-3-9s1.343-9 3-9" />
+                      </svg>
+                    </div>
+                    <h4 className="text-lg text-emerald-400 font-medium ml-3 line-clamp-1">
+                      LAN Server Broadcasting
+                    </h4>
+                  </div>
+                  <p className="text-gray-300 text-sm">
+                    Connect to external servers using LAN Discovery for easy
+                    multiplayer for all consoles.
+                  </p>
+                </div>
 
-              <div className="bg-white border border-gray-300 p-6 rounded-lg shadow-lg text-white flex flex-col">
-                <h4 className="text-2xl text-gray-800 font-semibold mb-4">
-                  🔒 Secure Proxy Tunneling
-                </h4>
-                <p className="text-gray-800">
-                  Our proxy system safely tunnels your connection to the remote
-                  server.
-                </p>
-              </div>
+                <div className="bg-gray-800 border border-gray-700 p-5 rounded-lg shadow-lg gaming-card">
+                  <div className="flex items-center mb-3">
+                    <div className="bg-blue-900/50 p-3 rounded-lg border border-blue-600/30">
+                      <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 text-blue-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" />
+                      </svg>
+                    </div>
+                    <h4 className="text-lg text-blue-400 font-medium ml-3 line-clamp-1">
+                      Secure Proxy Tunneling
+                    </h4>
+                  </div>
+                  <p className="text-gray-300 text-sm">
+                    Our proxy system safely tunnels your connection to the remote
+                    server, ensuring security.
+                  </p>
+                </div>
 
-              <div className="bg-white border border-gray-300 p-6 rounded-lg shadow-lg text-white flex flex-col">
-                <h4 className="text-2xl text-gray-800 font-semibold mb-4">
-                  💻 Cross-Platform
-                </h4>
-                <p className="text-gray-800">
-                  Runs on Windows and Mac, ensuring everyone can join in the
-                  fun.
-                </p>
-              </div>
+                <div className="bg-gray-800 border border-gray-700 p-5 rounded-lg shadow-lg gaming-card">
+                  <div className="flex items-center mb-3">
+                    <div className="bg-purple-900/50 p-3 rounded-lg border border-purple-600/30">
+                      <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 text-purple-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9.75 17L9 20l-1 1h8l-1-1-.75-3M3 13h18M5 17h14a2 2 0 002-2V5a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
+                      </svg>
+                    </div>
+                    <h4 className="text-lg text-purple-400 font-medium ml-3 line-clamp-1">
+                      Cross-Platform
+                    </h4>
+                  </div>
+                  <p className="text-gray-300 text-sm">
+                    Runs on Windows and Mac, ensuring everyone can join in the
+                    fun regardless of their system.
+                  </p>
+                </div>
 
-              <div className="bg-white border border-gray-300 p-6 rounded-lg shadow-lg text-white flex flex-col">
-                <h4 className="text-2xl text-gray-800 font-semibold mb-4">
-                  🕹️ Easy To Use
-                </h4>
-                <p className="text-gray-800">
-                  Simple UI with powerful features to improve your gaming
-                  experience.
-                </p>
+                <div className="bg-gray-800 border border-gray-700 p-5 rounded-lg shadow-lg gaming-card">
+                  <div className="flex items-center mb-3">
+                    <div className="bg-amber-900/50 p-3 rounded-lg border border-amber-600/30">
+                      <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 text-amber-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M14.828 14.828a4 4 0 01-5.656 0M9 10h.01M15 10h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                      </svg>
+                    </div>
+                    <h4 className="text-lg text-amber-400 font-medium ml-3 line-clamp-1">
+                      Easy To Use
+                    </h4>
+                  </div>
+                  <p className="text-gray-300 text-sm">
+                    Simple UI with powerful features to improve your gaming
+                    experience. No technical knowledge needed.
+                  </p>
+                </div>
               </div>
-            </div>
-          </section>
-        </main>
+            </section>
+          </main>
 
-        {serverList}
+          {serverList}
+        </div>
       </div>
 
       <Footer />
+
+      <style jsx global>{`
+        /* Animation styles */
+        .animate-fade-in-out {
+          animation: fadeInOut 2.3s ease-in-out;
+        }
+        .animate-fade-out {
+          animation: fadeOut 0.3s ease-out forwards;
+        }
+        @keyframes fadeInOut {
+          0% { opacity: 0; transform: translateY(10px); }
+          10% { opacity: 1; transform: translateY(0); }
+          90% { opacity: 1; }
+          100% { opacity: 0; }
+        }
+        @keyframes fadeOut {
+          from { opacity: 1; }
+          to { opacity: 0; }
+        }
+        
+        /* Gaming-style elements */
+        .gaming-card {
+          position: relative;
+          transition: all 0.3s ease;
+        }
+        .gaming-card:hover {
+          transform: translateY(-2px);
+          box-shadow: 0 8px 20px rgba(16, 185, 129, 0.15);
+        }
+        .gaming-button {
+          position: relative;
+          overflow: hidden;
+        }
+        .gaming-button::after {
+          content: '';
+          position: absolute;
+          top: 0;
+          left: -100%;
+          width: 100%;
+          height: 100%;
+          background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+          transition: 0.5s;
+        }
+        .gaming-button:hover::after {
+          left: 100%;
+        }
+        
+        /* Minecraft-inspired pixel spinner */
+        .pixel-spinner {
+          width: 40px;
+          height: 40px;
+          position: relative;
+        }
+        .pixel-spinner-inner {
+          width: 100%;
+          height: 100%;
+          background-color: #16a34a;
+          animation: pixel-spinner-animation 1.5s linear infinite;
+        }
+        @keyframes pixel-spinner-animation {
+          0% {
+            transform: scale(0.8);
+            opacity: 0.5;
+          }
+          50% {
+            transform: scale(1);
+            opacity: 1;
+          }
+          100% {
+            transform: scale(0.8);
+            opacity: 0.5;
+          }
+        }
+        
+        /* Pixelated text effect */
+        .pixelated {
+          text-shadow: 2px 2px 0px #003b25;
+          letter-spacing: 1px;
+        }
+        
+        /* Background cubes animation */
+        .cubes {
+          position: absolute;
+          top: 0;
+          left: 0;
+          width: 100%;
+          height: 100%;
+          background-image: 
+            radial-gradient(rgba(16, 185, 129, 0.1) 1px, transparent 1px),
+            radial-gradient(rgba(16, 185, 129, 0.1) 1px, transparent 1px);
+          background-size: 50px 50px;
+          background-position: 0 0, 25px 25px;
+          animation: scrollCubes 40s linear infinite;
+          opacity: 0.5;
+        }
+        @keyframes scrollCubes {
+          0% { background-position: 0 0, 25px 25px; }
+          100% { background-position: 1000px 0, 1025px 25px; }
+        }
+      `}</style>
     </div>
   );
 }

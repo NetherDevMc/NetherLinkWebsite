@@ -15,6 +15,7 @@ export function AuthProvider({ children }) {
         setUser({
           id: firebaseUser.uid,
           name: firebaseUser.displayName || firebaseUser.email,
+          email: firebaseUser.email,
           token,
         });
       } else {
