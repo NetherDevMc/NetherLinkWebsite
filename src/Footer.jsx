@@ -43,6 +43,12 @@ export default function Footer() {
             >
               Terms
             </Link>
+            <Link 
+              to="/contact" 
+              className="text-gray-400 hover:text-emerald-400 transition-colors duration-200 mb-2"
+            >
+              Contact
+            </Link>
           </nav>
           
           <p className="text-sm text-gray-500">

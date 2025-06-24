@@ -6,6 +6,7 @@ import Login from './page/Login';
 import Dashboard from './page/Dashboard';
 import Checkout from './page/Checkout'; 
 import TransactionHistory from "./page/TransactionHistory";
+import Contact from "./page/Contact";
 import Info from "./page/Info"; 
 
 import { AuthProvider, useAuth } from "./AuthContext";
@@ -31,6 +32,7 @@ export default function App() {
           <Route path="/privacy" element={<Privacy />} />
           <Route path="/login" element={<Login />} />
           <Route path="/info" element={<Info />} /> 
+          <Route path="/contact" element={<Contact />} />
           <Route path="/transactions" element={<TransactionHistory />} />
           <Route path="/checkout" element={
             <PrivateRoute>
