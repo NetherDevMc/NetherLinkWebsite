@@ -48,16 +48,16 @@ export default function Contact() {
                 <div className="flex items-center gap-2">
                   <FaEnvelope className="text-emerald-400" />
                   <a
-                    href="mailto:connect@netherlink.net"
+                    href="mailto:jenscollaert@icloud.com"
                     className="text-emerald-400 hover:underline"
                   >
-                    connect@netherlink.net
+                    jenscollaert@icloud.com
                   </a>
                 </div>
                 <div className="flex items-center gap-2">
                   <FaDiscord className="text-emerald-400" />
                   <a
-                    href="https://discord.gg/HAv4ZaSJk5"
+                    href="https://discord.gg/xvaNzE35Rs"
                     target="_blank"
                     rel="noopener noreferrer"
                     className="text-emerald-400 hover:underline"
@@ -66,10 +66,7 @@ export default function Contact() {
                   </a>
                 </div>
                 <div className="flex items-center gap-2">
-                  <span className="text-blue-300 font-semibold">KBO:</span> <span>Null</span>
-                </div>
-                <div className="flex items-center gap-2">
-                  <span className="text-blue-300 font-semibold">BTW:</span> <span>Null</span>
+                  <span className="text-blue-300 font-semibold">KBO:</span> <span>1025.363.838</span>
                 </div>
               </div>
             </section>
@@ -86,15 +83,15 @@ export default function Contact() {
                 <ul className="list-disc ml-6 mt-2 text-gray-300 space-y-1">
                   <li>
                     <a
-                      href="mailto:connect@netherlink.net"
+                      href="mailto:jenscollaert@icloud.com"
                       className="text-emerald-400 hover:underline"
                     >
-                      connect@netherlink.net
+                      jenscollaert@icloud.com
                     </a> – General support & business
                   </li>
                   <li>
                     <a
-                      href="https://discord.gg/HAv4ZaSJk5"
+                      href="https://discord.gg/xvaNzE35Rs"
                       target="_blank"
                       rel="noopener noreferrer"
                       className="text-emerald-400 hover:underline"

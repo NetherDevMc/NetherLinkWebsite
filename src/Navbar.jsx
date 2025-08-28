@@ -64,7 +64,7 @@ export default function Navbar() {
 
   const discordButton = (
     <a
-      href="https://discord.gg/HAv4ZaSJk5"
+      href="https://discord.gg/xvaNzE35Rs"
       target="_blank"
       rel="noopener noreferrer"
       onClick={() => setMenuOpen(false)}
