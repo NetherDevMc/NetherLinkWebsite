@@ -5,12 +5,10 @@ import { FaWindows, FaDownload, FaArchive } from "react-icons/fa";
 const WindowsDownloadModal = ({ isOpen, onClose }) => {
   const modalRef = useRef(null);
   
-  // Voorkom dat klikken op de modal zelf het sluiten veroorzaakt
   const handleModalClick = (e) => {
     e.stopPropagation();
   };
   
-  // Effect voor esc-toets om modal te sluiten
   useEffect(() => {
     const handleEscKey = (e) => {
       if (e.key === 'Escape' && isOpen) {
@@ -22,7 +20,6 @@ const WindowsDownloadModal = ({ isOpen, onClose }) => {
     return () => document.removeEventListener('keydown', handleEscKey);
   }, [isOpen, onClose]);
   
-  // Effect voor het detecteren van klikken buiten de modal
   useEffect(() => {
     const handleClickOutside = (e) => {
       if (modalRef.current && !modalRef.current.contains(e.target)) {
@@ -31,7 +28,6 @@ const WindowsDownloadModal = ({ isOpen, onClose }) => {
     };
     
     if (isOpen) {
-      // Gebruik setTimeout om te voorkomen dat de event die de modal opent, deze weer meteen sluit
       setTimeout(() => {
         document.addEventListener('mousedown', handleClickOutside);
       });
